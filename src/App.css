@@ -1,0 +1,30 @@
+:root {
+  margin: 4rem;
+  margin-left: 16rem;
+  margin-right: 16rem;
+}
+
+.mr-8 {
+  margin-right: 8px;
+}
+
+.mr-4 {
+  margin-right: 4px;
+}
+
+.button {
+  height: 50%;
+  margin-top: 24px !important;
+}
+
+.mr-16 {
+  margin: 16px;
+}
+
+.ml-16 {
+  margin-left: 16px !important;
+}
+
+.mt-8 {
+  margin-top: 8px !important;
+}
