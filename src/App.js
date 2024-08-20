@@ -21,13 +21,6 @@ const professionals = [
   { key: '10', value: 'Maria', text: 'Maria' },
 ];
 
-const options = {
-  filename: "formulario.pdf",
-  page: {
-    margin: 20
-  }
-};
-
 const Register = () => {
   return (
     <Form className='mr-16'>
@@ -58,22 +51,41 @@ const Register = () => {
 
 function App() {
   const [open, setOpen] = React.useState(false)
-  const { targetRef, toPDF } = usePDF(options);
+  const [professional, setProfessional] = React.useState();
+  const { targetRef, toPDF } = usePDF({
+    filename: `${professional}.pdf`,
+    page: {
+      margin: 20
+    }
+  });
 
   const handleGeneratePdf = () => {
     toPDF();
   }
 
+  const handleSetProfessional = (e) => {
+    setProfessional(e.target.value);
+  }
+
   const handleReload = () => {
     window.location.reload();
+    localStorage.setItem('professional', professional)
     setOpen(false)
   };
+
+  React.useEffect(() => {
+    const prof = localStorage.getItem('professional')
+    setProfessional(prof)
+  }, [])
 
   return (
     <div ref={targetRef}>
       <Header as='h1' content='Prontuário eletrônico' textAlign='center' />
       <br />
       <Form>
+        <FormGroup>
+          <FormInput label='Atendente' placeholder='Atendente' width={16} value={professional} onChange={handleSetProfessional} />
+        </FormGroup>
         <FormGroup>
           <FormInput label='Nome completo' placeholder='Nome completo' width={8} />
 
