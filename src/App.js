@@ -1,11 +1,12 @@
 import React from 'react'
 import { FormInput, FormGroup, Form, Header, Select, Grid, GridRow, GridColumn, Checkbox, Button, Modal, ModalContent, ModalDescription, ModalActions, ModalHeader } from 'semantic-ui-react'
 import './App.css'
+import { usePDF } from 'react-to-pdf';
 
 const tipoDemanda = [
   { key: '1', value: '1', text: 'Espontanea' },
   { key: '2', value: '2', text: 'Agendada' },
-]
+];
 
 const professionals = [
   { key: '1', value: 'Amanda', text: 'Amanda' },
@@ -18,7 +19,14 @@ const professionals = [
   { key: '8', value: 'Igor', text: 'Igor' },
   { key: '9', value: 'João', text: 'João' },
   { key: '10', value: 'Maria', text: 'Maria' },
-]
+];
+
+const options = {
+  filename: "formulario.pdf",
+  page: {
+    margin: 20
+  }
+};
 
 const Register = () => {
   return (
@@ -50,6 +58,11 @@ const Register = () => {
 
 function App() {
   const [open, setOpen] = React.useState(false)
+  const { targetRef, toPDF } = usePDF(options);
+
+  const handleGeneratePdf = () => {
+    toPDF();
+  }
 
   const handleReload = () => {
     window.location.reload();
@@ -57,7 +70,7 @@ function App() {
   };
 
   return (
-    <>
+    <div ref={targetRef}>
       <Header as='h1' content='Prontuário eletrônico' textAlign='center' />
       <br />
       <Form>
@@ -78,7 +91,7 @@ function App() {
         <br />
         <FormGroup>
           <FormInput label='Data da consulta' placeholder='Data da consulta' width={4} type='date' />
-          <FormInput label='Endereço' placeholder='Endereço' width={12} type='number' />
+          <FormInput label='Endereço' placeholder='Endereço' width={12} />
         </FormGroup>
         <br />
         <FormGroup>
@@ -128,7 +141,7 @@ function App() {
         open={open}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
-        trigger={<center><Button content='Concluir' primary /></center >}
+        trigger={<center><Button content='Concluir' primary onClick={handleGeneratePdf} /></center >}
         size='small'
       >
         <ModalHeader>Cadastro de atendimento</ModalHeader>
@@ -141,7 +154,7 @@ function App() {
           <Button primary onClick={handleReload}>OK</Button>
         </ModalActions>
       </Modal>
-    </>
+    </div>
   );
 }
 
