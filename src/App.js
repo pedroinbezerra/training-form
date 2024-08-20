@@ -69,8 +69,9 @@ function App() {
     setOpen(false)
   };
 
-  const handleReloadPatients = () => {
+  const handleReloadPatients = (e) => {
     setPatients(JSON.parse(localStorage.getItem('patients')));
+    setSelectedPatient(e.target.value);
   }
 
   React.useEffect(() => {
@@ -78,8 +79,6 @@ function App() {
     setProfessional(prof);
 
     const pat = JSON.parse(localStorage.getItem('patients'));
-
-    console.log(pat)
 
     if (!pat || pat.length === 0) {
       localStorage.setItem('patients', JSON.stringify(patientsInitialValue));
@@ -100,7 +99,7 @@ function App() {
           <Grid divided='vertically'>
             <GridRow columns={1}>
               <GridColumn>
-                <Header as='h5' content='Paciente' />
+                <Header as='h5' content='Paciente' className='ml-8' />
                 <Select id='patientSelect' labeled placeholder='Selecione' options={patients} width={12} onClick={handleReloadPatients} value={selectedPatient} />
               </GridColumn>
             </GridRow>

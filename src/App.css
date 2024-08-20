@@ -41,7 +41,7 @@
   width: 168% !important;
   height: 40% !important;
   margin-top: -6px;
-  margin-right: 8pxx;
+  margin-right: 8px;
 }
 
 .modalNewPatient {
@@ -51,4 +51,8 @@
 .center {
   display: flex;
   flex-direction: column !important;
+}
+
+.ml-8 {
+  margin-left: 8px !important;
 }
