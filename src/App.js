@@ -100,7 +100,7 @@ function App() {
           <Grid divided='vertically'>
             <GridRow columns={1}>
               <GridColumn>
-                <Header as='h5' content='Paciente' />
+                <Header as='h5' content='Paciente' className='ml-8' />
                 <Select id='patientSelect' labeled placeholder='Selecione' options={patients} width={12} onClick={handleReloadPatients} value={selectedPatient} />
               </GridColumn>
             </GridRow>
