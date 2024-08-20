@@ -9,16 +9,16 @@ const tipoDemanda = [
 ];
 
 const professionals = [
-  { key: '1', value: 'Amanda', text: 'Amanda' },
-  { key: '2', value: 'Bruno', text: 'Bruno' },
-  { key: '3', value: 'Carlos', text: 'Carlos' },
-  { key: '4', value: 'Danilo', text: 'Danilo' },
-  { key: '5', value: 'Eduardo', text: 'Eduardo' },
-  { key: '6', value: 'Fernanda', text: 'Fernanda' },
-  { key: '7', value: 'Gabriel', text: 'Gabriel' },
-  { key: '8', value: 'Igor', text: 'Igor' },
-  { key: '9', value: 'João', text: 'João' },
-  { key: '10', value: 'Maria', text: 'Maria' },
+  { key: '1', value: 'Doutor(a) Amanda', text: 'Doutor(a) Amanda' },
+  { key: '2', value: 'Técnico(a) Bruno', text: 'Técnico(a) Bruno' },
+  { key: '3', value: 'Enfermeiro(a) Carlos', text: 'Enfermeiro(a) Carlos' },
+  { key: '4', value: 'Doutor(a) Danilo', text: 'Doutor(a) Danilo' },
+  { key: '5', value: 'Enfermeiro(a) Eduardo', text: 'Enfermeiro(a) Eduardo' },
+  { key: '6', value: 'Técnico(a) Fernanda', text: 'Técnico(a) Fernanda' },
+  { key: '7', value: 'Doutor(a) Gabriel', text: 'Doutor(a) Gabriel' },
+  { key: '8', value: 'Dentista Igor', text: 'Dentista Igor' },
+  { key: '9', value: 'Dentista João', text: 'Dentista João' },
+  { key: '10', value: 'Técnico(a) Maria', text: 'Técnico(a) Maria' },
 ];
 
 const Register = () => {
