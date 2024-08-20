@@ -21,37 +21,33 @@ const professionals = [
   { key: '10', value: 'Técnico(a) Maria', text: 'Técnico(a) Maria' },
 ];
 
-const Register = () => {
-  return (
-    <Form className='mr-16'>
-      <FormGroup>
-        <FormInput label='Nome completo' placeholder='Nome completo' width={8} />
-        <FormInput label='CPF' placeholder='CPF' width={4} type='number' />
-        <FormInput label='Data de nascimento' placeholder='Data de nascimento' width={4} type='date' />
-      </FormGroup>
-      <br />
-      <FormGroup>
-        <FormInput label='CEP' placeholder='CEP' width={4} type='number' />
-        <FormInput label='Rua' placeholder='Rua' width={6} />
-        <FormInput label='Número' placeholder='Número' width={4} type='number' />
-      </FormGroup>
-      <FormGroup>
-        <FormInput label='Bairro' placeholder='Bairro' />
-        <FormInput label='Cidade' placeholder='Cidade' width={6} />
-        <FormInput label='Estado' placeholder='Estado' width={4} />
-      </FormGroup>
-      <br />
-      <FormGroup>
-        <FormInput label='Nome completo da mãe' placeholder='Nome completo da mãe' width={12} />
-        <FormInput label='Nome completo do pai' placeholder='Nome completo do pai' width={12} />
-      </FormGroup>
-    </Form>
-  )
-}
+const patientsInitialValue = [
+  { key: '1', value: 'Pedro Bezerra', text: 'Pedro Bezerra' },
+  { key: '2', value: 'Maria Nunes', text: 'Maria Nunes' },
+  { key: '3', value: 'José da Silva', text: 'José da Silva' },
+  { key: '4', value: 'João Neto', text: 'João Neto' }
+];
 
 function App() {
   const [open, setOpen] = React.useState(false)
   const [professional, setProfessional] = React.useState();
+  const [patients, setPatients] = React.useState([]);
+  const [modalRegisterPatient, setModalRegisterPatient] = React.useState(false);
+  const [newPatientName, setNewPatientName] = React.useState('');
+  const [selectedPatient, setSelectedPatient] = React.useState('');
+
+  const handleNewPatientName = (e) => {
+    setNewPatientName(e.target.value);
+  }
+
+  const handleRegisterPatient = () => {
+    const pat = JSON.parse(localStorage.getItem('patients'));
+    const key = pat.length + 1;
+    const newData = JSON.stringify([...pat, { key: key, value: newPatientName, text: newPatientName }]);
+    localStorage.setItem('patients', newData);
+    setSelectedPatient(newPatientName);
+    setModalRegisterPatient(false);
+  }
   const { targetRef, toPDF } = usePDF({
     filename: `${professional}.pdf`,
     page: {
@@ -73,10 +69,24 @@ function App() {
     setOpen(false)
   };
 
+  const handleReloadPatients = () => {
+    setPatients(JSON.parse(localStorage.getItem('patients')));
+  }
+
   React.useEffect(() => {
-    const prof = localStorage.getItem('professional')
-    setProfessional(prof)
-  }, [])
+    const prof = localStorage.getItem('professional');
+    setProfessional(prof);
+
+    const pat = JSON.parse(localStorage.getItem('patients'));
+
+    console.log(pat)
+
+    if (!pat || pat.length === 0) {
+      localStorage.setItem('patients', JSON.stringify(patientsInitialValue));
+    }
+
+    setPatients(pat);
+  }, [selectedPatient]);
 
   return (
     <div ref={targetRef}>
@@ -87,13 +97,48 @@ function App() {
           <FormInput label='Atendente' placeholder='Atendente' width={16} value={professional} onChange={handleSetProfessional} />
         </FormGroup>
         <FormGroup>
-          <FormInput label='Nome completo' placeholder='Nome completo' width={8} />
+          <Grid divided='vertically'>
+            <GridRow columns={1}>
+              <GridColumn>
+                <Header as='h5' content='Paciente' />
+                <Select id='patientSelect' labeled placeholder='Selecione' options={patients} width={12} onClick={handleReloadPatients} value={selectedPatient} />
+              </GridColumn>
+            </GridRow>
+          </Grid>
 
           <Modal
-            trigger={<Button primary className='button' content='Novo' />}
+            open={modalRegisterPatient}
+            trigger={<Button primary className='button ml-64' content='Novo' onClick={() => setModalRegisterPatient(true)} />}
             header='Cadastro de cidadão'
-            content={<Register />}
-            actions={['Cancelar', { key: 'done', content: 'Cadastrar', positive: true }]}
+            content={
+              <Form className='mr-16'>
+                <FormGroup>
+                  <FormInput label='Nome completo' placeholder='Nome completo' width={8} onChange={handleNewPatientName} />
+                  <FormInput label='CPF' placeholder='CPF' width={4} type='number' />
+                  <FormInput label='Data de nascimento' placeholder='Data de nascimento' width={4} type='date' />
+                </FormGroup>
+                <br />
+                <FormGroup>
+                  <FormInput label='CEP' placeholder='CEP' width={4} type='number' />
+                  <FormInput label='Rua' placeholder='Rua' width={6} />
+                  <FormInput label='Número' placeholder='Número' width={4} type='number' />
+                </FormGroup>
+                <FormGroup>
+                  <FormInput label='Bairro' placeholder='Bairro' />
+                  <FormInput label='Cidade' placeholder='Cidade' width={6} />
+                  <FormInput label='Estado' placeholder='Estado' width={4} />
+                </FormGroup>
+                <br />
+                <FormGroup>
+                  <FormInput label='Nome completo da mãe' placeholder='Nome completo da mãe' width={12} />
+                  <FormInput label='Nome completo do pai' placeholder='Nome completo do pai' width={12} />
+                </FormGroup>
+                <FormGroup className='center'>
+                  <Button primary onClick={handleRegisterPatient}>Cadastrar</Button>
+                  <Button onClick={() => setModalRegisterPatient(false)}>Cancelar</Button>
+                </FormGroup>
+              </Form>
+            }
           />
 
 
@@ -153,7 +198,7 @@ function App() {
         open={open}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
-        trigger={<center><Button content='Concluir' primary onClick={handleGeneratePdf} /></center >}
+        trigger={<center><Button content='Concluir' className='mb-32' primary onClick={handleGeneratePdf} /></center >}
         size='small'
       >
         <ModalHeader>Cadastro de atendimento</ModalHeader>
